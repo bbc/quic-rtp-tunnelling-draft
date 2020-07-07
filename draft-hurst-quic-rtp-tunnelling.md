@@ -343,9 +343,44 @@ TODO Security
 
 # IANA Considerations
 
-This document has no IANA actions.
+## Registration of Protocol Identification String {#reg-proto-string}
+This document creates a new registration for the identification of the QUIC RTP Tunnelling protocol
+in the "Application-Layer Protocol Negotiation (ALPN) Protocol IDs" registry established by
+{{!RFC7301}}.
 
+The "qrt" string identifies RTP sessions multiplexed and carried over a QUIC transport layer:
 
+  Protocol:
+  : QUIC RTP Tunnelling
+
+  Identification Sequence:
+  : 0x71 0x72 0x74 ("qrt")
+
+  Specification:
+  : This document, {{protocol-identifier}}
+
+## Registration of SDP Protocol Identifier
+This document creates a new registration for the SDP Protocol Identifier ("proto") "RTP/QRT" in the
+SDP Protocol Identifiers ("proto") registry established by {{!RFC4566}}.
+
+The "RTP/QRT" string identifies a profile of RTP where sessions are multiplexed and carried over a
+QUIC transport layer:
+
+  SDP Protocol Name:
+  : RTP/QRT
+
+  Reference:
+  : This document, {{sdp-mapping}}
+
+## Registration of SDP Attribute Field
+This document creates a new registration for the SDP Attribute Field ("att-field") "qrtflow" in the
+SDP Attribute Field registry established by {{!RFC4566}}.
+
+  SDP Attribute Field:
+  : "qrtflow"
+
+  Reference:
+  : This document, {{sdp-mapping}}
 
 --- back
 
