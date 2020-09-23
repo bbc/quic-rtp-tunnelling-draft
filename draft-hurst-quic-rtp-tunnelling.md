@@ -307,10 +307,6 @@ the sender. As all `DATAGRAM` frames are ACK-eliciting, QUIC already fulfils thi
 should already be known to both ends of the QUIC connection by means of the loss detection mechanism
 specified in {{QUIC-RECOVERY}}.
 
-* The "Receiver Reference Time" and "Delay Since Last Receiver Report" Extended Report packet types
-defined in {{!RFC3611}} SHOULD NOT be used if both endpoints in a QRT session are using the QUIC
-spin bit to calculate Round-Trip Time (RTT) between endpoints as specified in {{rtt-spin}}.
-
 * The "Port Mapping" packet type defined in {{!RFC6284}} is used to negotiate UDP port pairs for the
 carriage of RTP and RTCP packets to peers. This does not apply in a QRT session, as the QUIC
 connection manages the UDP port association(s), and as such this packet type SHOULD NOT be used.
@@ -398,8 +394,9 @@ a=qrtflow:2
 
 {{QUIC-TRANSPORT}} includes a mechanism that allows latency monitoring for a connection, not just by
 QUIC endpoints but also passively by observation points on the network path. QRT implementations
-SHOULD support the spin bit and actively use it to calculate the Round-Trip Time between a client
-and server, and make this data available to the RTP layer.
+SHOULD support the spin bit and MAY use it either alone or in combination with RTCP messages to
+calculate the Round-Trip Time between a client and server, and make this data available to the RTP
+layer.
 
 > **Authors' Note:** It occurs to me that there is no means for the server to indicate what amount
 of idle or processing time was incurred before the packet that flips the spin bit is received. For
