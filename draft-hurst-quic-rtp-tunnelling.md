@@ -156,13 +156,59 @@ The following sections describe some possible use cases for an RTP Mapping over 
 The examples were chosen to illustrate some basic concepts, and is both not an exhaustive list of
 possible use cases nor a limitation on what QRT may be used for.
 
-## Current Affairs Contribution Feed {#contrib-feed}
+## Live Event Contribution Feed {#contrib-feed}
 
-TODO Some words about contrib feeds
+A news organisation wishes to provide a live, two-way link to a live event for distribution as part
+of an item in a news programme hosted in a studio with a news anchor. The single camera remote
+production crew will include a camera operator, sound technician and the reporter. In order to
+deliver this experience, the following media flows are required:
+
+* A high-quality video feed from the remote camera to the news organisation's gallery;
+
+* One or more audio feeds for microphones at the event, including an ambient microphone attached to
+the camera, a lapel microphone for the reporter, and a handheld microphone to conduct interviews,
+all synchronized;
+
+* A video feed of the program output from the gallery, after mixing for local monitoring and for
+use on a comfort monitor;
+
+* An audio feed from the anchor in the studio to ask questions;
+
+* A two-way audio feed from the gallery to the remote production crew for talkback communication;
+
+* A tally light feed for the remote camera
+
+These media flows may be realised as a group of RTP sessions, some of which must be synchronised
+together. The talkback streams do not require any tight synchronisation between other streams in the
+group, whereas the camera video feed and various microphone feeds must be tightly synchronised
+together.
+
+At the event, a production machine running a software package that includes a QRT client has two
+connections to the internet, a high-speed fibre connection and a bonded cellular network
+connection for backup.
+
+In order to prevent a bad actor on the network path being able to tamper with the contribution, all
+communication between the news organisation's gallery and the remote production must be encrypted.
+As all the data is flowing between two known points, then only a single QRT session is required, and
+the various RTP sessions that are encompassed by the QRT session are demultiplexed at each end.
+
+During the live contribution, an accident cuts the fibre connection to the remote production crew.
+Using the QUIC connection migration mechanism presented in Section 9 of {{QUIC-TRANSPORT}}, the QRT
+session migrates from the fibre connection onto the backup cellular connection. This preserves the
+state of the RTP sessions across a network migration event, and all sessions continue.
 
 ## Audio and Video Conference Via a Central Server {#teleconference}
 
-TODO Some words about videoconferences
+A teleconference between several participants is taking place across several sites using a
+centralised server. All participants connect to this single server, and the server acts as an RTP
+mixer to reduce the number of RTP sessions being sent to all participants, as well as re-encoding
+the streams for efficiency reasons.
+
+One participant of this conference has connected via their mobile phone, as they are travelling and
+using their cellular data connection. However, when they come in range of a previously-associated
+WiFi network the mobile phone switches it's network connection across to this new network. The QRT
+session can then migrate across, and the user is able to continue the call with minimal
+interruption.
 
 # QRT Sessions {#qrt-session}
 
