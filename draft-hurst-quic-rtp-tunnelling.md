@@ -344,8 +344,8 @@ their experiments.
 
 # Security Considerations
 
-TODO Security
-
+Implementations of the protocol defined in this specification are subject to the security
+considerations discussed in {{QUIC-TRANSPORT}} and {{QUIC-TLS}}.
 
 # IANA Considerations
 
