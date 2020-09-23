@@ -166,7 +166,13 @@ TODO Some words about videoconferences
 
 # QRT Sessions {#qrt-session}
 
+A QRT session is defined as a QUIC connection which carries one or more RTP sessions using
+`DATAGRAM` frames, as specified in {{rtp-session}}. Those RTP sessions may be part of one or more
+RTP multimedia sessions, and a multimedia session may be comprised of RTP sessions carried in one or
+more QRT sessions.
 
+A QRT session inherits the standard QUIC handshake as specified in {{QUIC-TRANSPORT}}, and all
+communications between endpoints are secured as specified in {{QUIC-TLS}}.
 
 # RTP Sessions {#rtp-session}
 
