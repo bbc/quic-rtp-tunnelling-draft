@@ -23,7 +23,7 @@ normative:
     title: "QUIC: A UDP-Based Multiplexed and Secure Transport"
     date: {DATE}
     seriesinfo:
-      Internet-Draft: draft-ietf-quic-transport-29
+      Internet-Draft: draft-ietf-quic-transport-30
     author:
       -
         ins: J. Iyengar
@@ -40,7 +40,7 @@ normative:
     title: "QUIC Loss Detection and Congestion Control"
     date: {DATE}
     seriesinfo:
-      Internet-Draft: draft-ietf-quic-recovery-29
+      Internet-Draft: draft-ietf-quic-recovery-30
     author:
       -
         ins: J. Iyengar
@@ -57,7 +57,7 @@ normative:
     title: "An Unreliable Datagram Extension to QUIC"
     date: {DATE}
     seriesinfo:
-      Internet-Draft: draft-ietf-quic-datagram-00
+      Internet-Draft: draft-ietf-quic-datagram-01
     author:
       -
         ins: T. Pauly
@@ -80,7 +80,7 @@ informative:
     title: "Using Transport Layer Security (TLS) to Secure QUIC"
     date: {DATE}
     seriesinfo:
-      Internet-Draft: draft-ietf-quic-tls-29
+      Internet-Draft: draft-ietf-quic-tls-30
     author:
       -
         ins: M. Thomson
