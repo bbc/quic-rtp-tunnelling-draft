@@ -270,6 +270,20 @@ spin bit to calculate Round-Trip Time (RTT) between endpoints as specified in {{
 carriage of RTP and RTCP packets to peers. This does not apply in a QRT session, as the QUIC
 connection manages the UDP port association(s), and as such this packet type SHOULD NOT be used.
 
+# Loss Recovery and Retransmission
+
+> **Authors' Note:** Do we want to mandate (make a MUST) doing session-multiplexing instead of
+SSRC-multiplexing for RTP retransmission?
+
+{{!RFC4588}} provides a mechanism to support RTP retransmission in the case of loss of RTP packets,
+in order to increase the quality of service provided by the media stream. As QRT natively supports
+multiplexing of RTP sessions on a single QUIC connection, endpoints which choose to implement
+retransmission SHOULD do so using the session-multiplexing scheme described in {{!RFC4588}}.
+
+The selection of a new RTP session flow identifier to use for the retransmission session is
+implementation-specific. See {{sdp-rtx}} for the specification of how the mapping between original
+and retransmission RTP sessions is done with Session Description Protocol (SDP).
+
 # Using the Session Description Protocol to Advertise QRT Sessions {#sdp-mapping}
 
 The Session Description Protocol defined in {{!RFC4566}} describes a format for advertising
@@ -309,6 +323,27 @@ a=mid:2
 a=sendonly
 ~~~~~~~~~~
 {: #sdp-example title="SDP object describing a receiving QRT session"}
+
+## Using the Session Description Protocol to Advertise QRT Sessions using RTP Retransmission {#sdp-rtx}
+
+In the below example {{sdp-rtx-example}}, a hypothetical QRT session is advertised exposing a
+bidirectional RTP session carrying MPEG2 Transport Streams on QRT session flow identifier 0, with an
+associated retransmission QRT session flow on identifier 2.
+
+~~~~~~~~~~
+v=0
+o=gfreeman 1594130940 1594135167 IN IP6 qrt.example.org
+s=Live Event Contribution
+c=IN IP6 2001:db8::4242:4351:5254
+t=1594130980 1594388466
+m=video 443 RTP/QRT 33
+a=qrtflow:0
+m=video 443 RTP/QRT 96
+a=rtpmap:97 rtx/90000
+a=fmtp:96 apt=33;rtx-time=4000
+a=qrtflow:2
+~~~~~~~~~~
+{: #sdp-rtx-example title="SDP object describing a QRT session with RTP retransmission"}
 
 # Calculating Round-Trip Time Using The Spin Bit {#rtt-spin}
 
