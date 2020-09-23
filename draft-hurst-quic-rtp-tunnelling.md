@@ -324,6 +324,10 @@ a=sendonly
 ~~~~~~~~~~
 {: #sdp-example title="SDP object describing a receiving QRT session"}
 
+As the value of a QRT session flow identifier for an RTCP flow is mandated in {{rtcp-mapping}} of
+this specification, then SDP advertisements containing the "a=qrtflow:" attribute MUST NOT contain
+an instance of the "a=rtcp:" attribute as defined in {{!RFC3605}}.
+
 ## Using the Session Description Protocol to Advertise QRT Sessions using RTP Retransmission {#sdp-rtx}
 
 In the below example {{sdp-rtx-example}}, a hypothetical QRT session is advertised exposing a
