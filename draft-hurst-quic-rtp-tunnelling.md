@@ -129,7 +129,6 @@ audio playback. By purposely using an unreliable transport mechanism, applicatio
 added latency that would otherwise result from managing the large packet reception buffers needed to
 account for network reordering or transport protocol retransmission.
 
-
 ## Conventions and Definitions
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
@@ -144,7 +143,7 @@ Packet and frame diagrams in this document use the format described in {{QUIC-TR
 * Endpoint: host capable of being a participant in a QRT session.
 
 * QRT session: A QUIC connection carrying one or more RTP sessions, each with or without an
-accompanying RTCP channel. Logically, this aligns with the RTP concept of a "multimedia session".
+accompanying RTCP channel.
 
 * Client: The endpoint which initiates the QUIC connection
 
@@ -274,7 +273,7 @@ packets is discussed further in {{rtcp-mapping}}.
 | 0x1  | RTCP packet flow for an RTP session |
 {: #flow-identifier-categories title="RTP session flow identifer categories"}
 
-> **Authors' Note:** The authors welcome comments on whether a state model of RTP session flows
+> **Authors' Note:** The author welcomes comments on whether a state model of RTP session flows
 would be beneficial. Currently, once an RTP session has been used by an endpoint, it is then
 considered an extant RTP session and implementations would have to keep any resources allocated to
 that RTP session until the QRT session is complete.
