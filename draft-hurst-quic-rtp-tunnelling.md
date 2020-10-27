@@ -99,31 +99,31 @@ informative:
 QUIC is a UDP-based transport protocol for stream-orientated, congestion-controlled, secure,
 multiplexed data transfer. RTP carries real-time data between endpoints, and the accompanying
 control protocol RTCP allows monitoring and control of the transfer of such data. With RTP and RTCP
-being agnostic to the underlying transport protocol, it would be possible to multiplex both the RTP
-and associated RTCP flows into a single QUIC connection to take advantage of QUIC features such as
-the low latency setup and strong TLS-based security.
+being agnostic to the underlying transport protocol, it is possible to multiplex both the RTP and
+associated RTCP flows into a single QUIC connection to take advantage of QUIC features such as
+low-latency setup and strong TLS-based security.
 
 --- middle
 
 # Introduction
 
 The Real-time Transport Protocol (RTP) {{!RFC3550}} provides end-to-end network transport functions
-suitable for application transmitting real-time data, such as audio and video data, over multicast
-or unicast network services for the purposes of telephony, video streaming, conferencing and other
-real-time applications.
+suitable for applications transmitting data, such as audio and video, over multicast or unicast
+network services for the purposes of telephony, video streaming, conferencing and other real-time
+applications.
 
 The QUIC transport protocol is a UDP-based stream-orientated and encrypted transport protocol aimed
-at offering an improvement path over the common combination of TCP and TLS for web applications.
-Compared with TCP+TLS, QUIC offers much reduced connection set-up times, improved stream
-multiplexing aware congestion control, and the ability to perform connection migration. QUIC offers
-two modes of data transfer:
+at offering improvements over the common combination of TCP and TLS for web applications. Compared
+with TCP+TLS, QUIC offers much reduced connection set-up times, improved stream multiplexing aware
+congestion control, and the ability to perform connection migration. QUIC offers two modes of data
+transfer:
 
 * Reliable transfer using STREAM frames, as specified in {{QUIC-TRANSPORT}}, {{QUIC-RECOVERY}}, etc.
 * Unreliable transfer using DATAGRAM extension frames, as specified in {{QUIC-DATAGRAM}}.
 
 RTP has traditionally been run over UDP or DTLS to achieve timely but unreliable data transfer. For
 use cases such as real-time audio and video transmission, the underlying media codecs can be
-considered in part fault tolerant to an unreliable transport mechanism, with missing data from the
+considered in part fault-tolerant to an unreliable transport mechanism, with missing data from the
 stream resulting in glitches in the media presentation, such as missing video frames or gaps in
 audio playback. By purposely using an unreliable transport mechanism, applications can minimise the
 added latency that would otherwise result from managing the large packet reception buffers needed to
@@ -145,22 +145,22 @@ Packet and frame diagrams in this document use the format described in {{QUIC-TR
 * QRT session: A QUIC connection carrying one or more RTP sessions, each with or without an
 accompanying RTCP channel.
 
-* Client: The endpoint which initiates the QUIC connection
+* Client: The endpoint which initiates the QUIC connection.
 
-* Server: The endpoint which accepts the incoming QUIC connection
+* Server: The endpoint which accepts the incoming QUIC connection.
 
 # Use Cases for an RTP Mapping over QUIC
 
-The following sections describe some possible use cases for an RTP Mapping over QUIC, hereafter QRT.
-The examples were chosen to illustrate some basic concepts, and is both not an exhaustive list of
-possible use cases nor a limitation on what QRT may be used for.
+The following sections describe some possible use cases for an RTP and RTCP mapping over QUIC,
+hereafter QRT. The examples were chosen to illustrate some basic concepts, and are neither an
+exhaustive list of possible use cases nor a limitation on what QRT may be used for.
 
 ## Live Event Contribution Feed {#contrib-feed}
 
-A news organisation wishes to provide a live, two-way link to a live event for distribution as part
-of an item in a news programme hosted in a studio with a news anchor. The single camera remote
-production crew will include a camera operator, sound technician and the reporter. In order to
-deliver this experience, the following media flows are required:
+A news organisation wishes to provide a two-way link to a live event for distribution as part of an
+item in a news programme hosted in a studio with a news anchor. The single camera remote production
+crew will include a camera operator, sound technician and the reporter. In order to deliver this
+experience, the following media flows are required:
 
 * A high-quality video feed from the remote camera to the news organisation's gallery;
 
@@ -168,53 +168,51 @@ deliver this experience, the following media flows are required:
 the camera, a lapel microphone for the reporter, and a handheld microphone to conduct interviews,
 all synchronized;
 
-* A video feed of the program output from the gallery, after mixing for local monitoring and for
+* A video feed of the programme output from the gallery, after mixing for local monitoring and for
 use on a comfort monitor;
 
-* An audio feed from the anchor in the studio to ask questions;
+* An audio feed from the anchor in the studio to the reporter;
 
 * A two-way audio feed from the gallery to the remote production crew for talkback communication;
 
-* A tally light feed for the remote camera
+* A tally light feed for the remote camera.
 
 These media flows may be realised as a group of RTP sessions, some of which must be synchronised
-together. The talkback streams do not require any tight synchronisation between other streams in the
-group, whereas the camera video feed and various microphone feeds must be tightly synchronised
+together. The talkback streams do not require any tight synchronisation with other streams in the
+group, whereas the camera video feed and various microphone feeds need to be tightly synchronised
 together.
 
 At the event, a production machine running a software package that includes a QRT client has two
-connections to the internet, a high-speed fibre connection and a bonded cellular network
-connection for backup.
+connections to the internet; a high-speed fibre link and a bonded cellular network link for backup.
 
 In order to prevent a bad actor on the network path being able to tamper with the contribution, all
-communication between the news organisation's gallery and the remote production must be encrypted.
-As all the data is flowing between two known points, then only a single QRT session is required, and
-the various RTP sessions that are encompassed by the QRT session are demultiplexed at each end.
+communication between the news organisation's gallery and the remote production need to be
+encrypted. Because all the data is flowing between the same two endpoints, only a single QRT session
+is required, and the various RTP sessions that are encapsulated by the QRT session are
+(de)multiplexed at each end.
 
 During the live contribution, an accident cuts the fibre connection to the remote production crew.
 Using the QUIC connection migration mechanism presented in Section 9 of {{QUIC-TRANSPORT}}, the QRT
-session migrates from the fibre connection onto the backup cellular connection. This preserves the
-state of the RTP sessions across a network migration event, and all sessions continue.
+session migrates from the fibre link onto the backup cellular link. This preserves the state of the
+RTP sessions across a network migration event, and all sessions continue.
 
-## Audio and Video Conference Via a Central Server {#teleconference}
+## Audio and Video Conference via a Central Server {#teleconference}
 
-A teleconference between several participants is taking place across several sites using a
-centralised server. All participants connect to this single server, and the server acts as an RTP
-mixer to reduce the number of RTP sessions being sent to all participants, as well as re-encoding
-the streams for efficiency reasons.
+A teleconference is taking place across multiple sites using a centralised server. All participants
+connect to this single server, and the server acts as an RTP mixer to reduce the number of RTP
+sessions being sent to all participants, as well as re-encoding the streams for efficiency reasons.
 
-One participant of this conference has connected via their mobile phone, as they are travelling and
-using their cellular data connection. However, when they come in range of a previously-associated
-WiFi network the mobile phone switches it's network connection across to this new network. The QRT
-session can then migrate across, and the user is able to continue the call with minimal
-interruption.
+One participant of this conference has connected via mobile phone. However, when the participant
+enters the range of a previously-associated WiFi network, the mobile phone switches its network
+connection across to this new network. The QRT session can then migrate across, and the participant
+is able to continue the call with minimal interruption.
 
 # QRT Sessions {#qrt-session}
 
-A QRT session is defined as a QUIC connection which carries one or more RTP sessions using
-`DATAGRAM` frames, as specified in {{rtp-session}}. Those RTP sessions may be part of one or more
-RTP multimedia sessions, and a multimedia session may be comprised of RTP sessions carried in one or
-more QRT sessions.
+A QRT session is defined as a QUIC connection which carries one or more RTP sessions (including any
+  associated RTCP flows) using `DATAGRAM` frames, as specified in {{rtp-session}}. Those RTP
+  sessions may be part of one or more RTP multimedia sessions, and a multimedia session may be
+  comprised of RTP sessions carried in one or more QRT sessions.
 
 A QRT session inherits the standard QUIC handshake as specified in {{QUIC-TRANSPORT}}, and all
 communications between endpoints are secured as specified in {{QUIC-TLS}}.
@@ -222,94 +220,92 @@ communications between endpoints are secured as specified in {{QUIC-TLS}}.
 # RTP Sessions {#rtp-session}
 
 QRT allows multiple RTP sessions to be carried in a single QRT session. Each RTP session is operated
-independently of all the others, and individually discriminated by an RTP session flow identifier,
-as described below in {{flow-identifier}}.
+independently of all the others, and individually discriminated by an QRT Flow Identifier, as
+described below in {{flow-identifier}}.
 
-RTP packets are carried in QUIC `DATAGRAM` frames, as described in {{QUIC-DATAGRAM}}. QUIC allows
-multiple QUIC frames to be carried within a single QUIC packet, so multiple RTP packets for one (or
-more) RTP sessions may therefore be carried in a single QUIC packet, subject to the network path
-MTU. If multiple RTP packets are to be carried within a single QUIC packet, then all but the final
-`DATAGRAM` frame must specify the length of the datagram, as the RTP packet header does not provide
-its own length field. It is therefore assumed that if a `DATAGRAM` frame is received without a
-Length field, then this QUIC frame extends to the end of the QUIC packet.
+RTP and RTCP packets are carried in QUIC `DATAGRAM` frames, as described in {{QUIC-DATAGRAM}}. QUIC
+allows multiple QUIC frames to be carried within a single QUIC packet, so multiple RTP/RTCP packets
+for one (or more) RTP sessions may therefore be carried in a single QUIC packet, subject to the
+network path MTU. If multiple RTP packets are to be carried within a single QUIC packet, then all
+but the final `DATAGRAM` frame must specify the length of the datagram, since the RTP packet header
+does not provide its own length field. [QUIC-DATAGRAM] specifies that if a `DATAGRAM` frame is
+received without a Length field, then this `DATAGRAM` frame extends to the end of the QUIC packet.
 
-## RTP Session Flow Identifier {#flow-identifier}
+## QRT Flow Identifier {#flow-identifier}
 
-{{!RFC3550}} specifies that in traditional RTP, RTP sessions are distinguished by pairs of transport
-addresses. However as QUIC allows for connections to migrate between transport address associations,
-and as we wish to multiplex multiple RTP session flows over a single RTP session, this profile of
-RTP amends this statement and instead distinguishes between RTP sessions by the way of a flow
-identifier. The RTP Session Flow Identifier is a 62-bit unsigned integer between the values of 0 and
-2^62 - 1.
+{{!RFC3550}} specifies that RTP sessions are distinguished by pairs of transport addresses. However,
+since QUIC allows for connections to migrate between transport address associations, and because we
+wish to multiplex multiple RTP session flows over a single QRT session, this profile of RTP amends
+this statement and instead introduces a flow identifier to distinguish between RTP sessions. The QRT
+Flow Identifier is a 62-bit unsigned integer between 0 and 2^62 - 1.
 
-This specification does not mandate a means by which the RTP Session Flow Identifiers should be
-allocated for use within QRT sessions. An example mapping for this is discussed in {{sdp-mapping}}
-below. Implementations SHOULD allocate flow identifiers that make the most efficient use of the
-variable length integer packing mechanism, i.e. not using flow identifiers greater than what can be
-expressed in the smallest variable length integer field until all available flow identifiers have
-been used.
+This specification does not mandate a means by which QRT Flow Identifiers are allocated for use
+within QRT sessions. An example mapping for this is discussed in {{sdp-mapping}} below.
+Implementations SHOULD allocate flow identifiers that make the most efficient use of the variable
+length integer packing mechanism, by not using flow identifiers greater than can be expressed in the
+smallest variable length integer field until all available flow identifiers have been used.
 
-The flow of packets belonging to an RTP session are identified by way of an RTP Session Flow
-Identifier header carried in the `DATAGRAM` frame payload before each RTP packet. This flow
-identifier is encoded as a variable-length integer, as defined in {{QUIC-TRANSPORT}}.
+The flow of packets belonging to an RTP session is identified using an RTP Session Flow Identifier
+header carried in the `DATAGRAM` frame payload before each RTP/RTCP packet. This flow identifier is
+encoded as a variable-length integer, as defined in {{QUIC-TRANSPORT}}.
 
 ~~~
 QRT Datagram Payload {
-  Flow Identifier (i),
-  RTP Packet (..)
+  QRT Flow Identifier (i),
+  RTP/RTCP Packet (..)
 }
 ~~~
 {: #fig-qrt-datagram-payload title="QRT Datagram Payload"}
 
-Similar to QUIC stream IDs, the least significant bit (0x1) of the flow identifier distinguishes
-between an RTP and an RTCP packet flow. `DATAGRAM` frames which carry RTP packet flows will have
-this bit set to 0 (and as such be an even-numbered flow identifier), and `DATAGRAM` frames which
-carry RTCP packet flows will have this bit set to 1 (odd-numbered flow identifier). Carriage of RTCP
-packets is discussed further in {{rtcp-mapping}}.
+Similar to QUIC stream IDs, the least significant bit (0x1) of the QRT Flow Identifier distinguishes
+between an RTP and an RTCP packet flow. `DATAGRAM` frames which carry RTP packet flows set this bit
+to 0, and `DATAGRAM` frames which carry RTCP packet flows set this bit to 1. As a consequence, RTP
+packet flows have even numbered QRT Flow Identifiers, and RTCP packet flows have odd-numbered QRT
+Flow Identifiers. Carriage of RTCP packets is discussed further in {{rtcp-mapping}}.
 
-| Bits | Flow identifier category            |
-|:-----|:------------------------------------|
-| 0x0  | RTP packet flow for an RTP session  |
-| 0x1  | RTCP packet flow for an RTP session |
+| Least significant bit | Flow identifier category            |
+|:----------------------|:------------------------------------|
+| 0x0                   | RTP packet flow for an RTP session  |
+| 0x1                   | RTCP packet flow for an RTP session |
 {: #flow-identifier-categories title="RTP session flow identifer categories"}
 
-> **Authors' Note:** The author welcomes comments on whether a state model of RTP session flows
+> **Author's Note:** The author welcomes comments on whether a state model of RTP session flows
 would be beneficial. Currently, once an RTP session has been used by an endpoint, it is then
 considered an extant RTP session and implementations would have to keep any resources allocated to
 that RTP session until the QRT session is complete.
 
 ## RTCP Mapping {#rtcp-mapping}
 
-An RTP session may have RTCP packet flows associated with it. These flows are carried on a separate
-RTP session flow identifier, as described in {{flow-identifier}}. The session flow identifier is
-always the value of the RTP session flow identifier + 1. For example, for an RTP packet flow using
-flow identifier 18, the RTCP packet flow would use flow identifier 19.
+An RTP session may have RTCP packet flows associated with it. These flows are carried with different
+QRT Flow Identifiers, as described in {{flow-identifier}}. The QRT Flow Identifier of the RTCP
+packet flow is always the value of the RTP packet flow QRT Flow Identifier + 1. For example, for an
+RTP packet flow using flow identifier 18, the RTCP packet flow would use flow identifier 19.
 
-As RTCP packets contain a length field in their header, implementations MAY combine several RTCP
-packets pertaining to the same RTP session into a single `DATAGRAM` frame. Additionally,
+Since RTCP packets contain a length field in their header, implementations MAY combine several RTCP
+packets pertaining to the same RTP session into a single `DATAGRAM` frame. Alternatively,
 implementations MAY choose to carry these RTCP packets each in their own `DATAGRAM` frame.
 
 ### Restricted RTCP Packet Types {#restricted-rtcp}
 
-> **Authors' Note:** I have specifically avoided calling this section "Prohibited RTCP packet types"
+> **Author's Note:** I have specifically avoided calling this section "Prohibited RTCP packet types"
 for the time being, so as to not unnecessarily exclude the carriage of these packet types for the
 purposes of experimentation. Similarly, most statements below use SHOULD NOT instead of MUST NOT.
-The authors welcome comments on whether the document should prohibit the sending of some or all of
+The author welcomes comments on whether the document should prohibit the sending of some or all of
 these packet types.
 
 In order to reduce duplication, the following RTCP packet types SHOULD NOT be sent in a QRT session:
 
-* The "Generic NACK" packet defined in {{!RFC4585}} states that Generic NACK feedback SHOULD NOT be
-used if the underlying transport protocol is capable of providing similar feedback information to
-the sender. As all `DATAGRAM` frames are ACK-eliciting, QUIC already fulfils this requirement.
+* The "Generic NACK" packet. {{!RFC4585}} states that Generic NACK feedback SHOULD NOT be used if
+the underlying transport protocol is capable of providing similar feedback information to the
+sender. Since all `DATAGRAM` frames are ACK-eliciting, QUIC already fulfils this requirement.
 
 * The "Loss RLE" Extended Report (XR) packet defined in {{!RFC3611}} contains information that
 should already be known to both ends of the QUIC connection by means of the loss detection mechanism
 specified in {{QUIC-RECOVERY}}.
 
 * The "Port Mapping" packet type defined in {{!RFC6284}} is used to negotiate UDP port pairs for the
-carriage of RTP and RTCP packets to peers. This does not apply in a QRT session, as the QUIC
-connection manages the UDP port association(s), and as such this packet type SHOULD NOT be used.
+carriage of RTP and RTCP packets to peers. This does not apply in a QRT session, because the QUIC
+endpoints manage the UDP port association(s) for the QUIC connection as a whole.
 
 # Loss Recovery and Retransmission
 
@@ -321,7 +317,7 @@ in order to increase the quality of service provided by the media stream. As QRT
 multiplexing of RTP sessions on a single QUIC connection, endpoints which choose to implement
 retransmission SHOULD do so using the session-multiplexing scheme described in {{!RFC4588}}.
 
-The selection of a new RTP session flow identifier to use for the retransmission session is
+The selection of a new QRT Flow Identifier to use for the retransmission session is
 implementation-specific. See {{sdp-rtx}} for the specification of how the mapping between original
 and retransmission RTP sessions is done with Session Description Protocol (SDP).
 
