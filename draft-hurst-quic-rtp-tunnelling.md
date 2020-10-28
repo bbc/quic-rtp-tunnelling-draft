@@ -88,7 +88,7 @@ informative:
         org: Mozilla
         role: editor
       -
-        ins: S. Turner, Ed.
+        ins: S. Turner
         name: Sean Turner
         org: sn3rd
         role: editor
@@ -309,35 +309,36 @@ endpoints manage the UDP port association(s) for the QUIC connection as a whole.
 
 # Loss Recovery and Retransmission
 
-> **Authors' Note:** Do we want to mandate (make a MUST) doing session-multiplexing instead of
+> **Author's Note:** Do we want to mandate (make a MUST) doing session-multiplexing instead of
 SSRC-multiplexing for RTP retransmission?
 
-{{!RFC4588}} provides a mechanism to support RTP retransmission in the case of loss of RTP packets,
-in order to increase the quality of service provided by the media stream. As QRT natively supports
-multiplexing of RTP sessions on a single QUIC connection, endpoints which choose to implement
-retransmission SHOULD do so using the session-multiplexing scheme described in {{!RFC4588}}.
+{{!RFC4588}} specifies two schemes to support retransmission in the case of RTP packet loss. Since
+QRT natively supports RTP session multiplexing on a single QUIC connection, endpoints choosing to
+implement retransmission SHOULD do so using the session-multiplexing scheme.
 
-The selection of a new QRT Flow Identifier to use for the retransmission session is
-implementation-specific. See {{sdp-rtx}} for the specification of how the mapping between original
-and retransmission RTP sessions is done with Session Description Protocol (SDP).
+The selection of a new QRT Flow Identifier to use for the retransmission RTP session is
+implementation-specific. {{sdp-rtx}} specifies how the mapping between original and retransmission
+RTP sessions is expressed using the Session Description Protocol (SDP).
 
 # Using the Session Description Protocol to Advertise QRT Sessions {#sdp-mapping}
 
-The Session Description Protocol defined in {{!RFC4566}} describes a format for advertising
-multimedia sessions, which is used by protocols such as {{!RFC3261}}.
+{{!RFC4566}} describes a format for advertising multimedia sessions, which is used by protocols such
+as {{!RFC3261}}.
 
-This specification introduces a new SDP value attribute "`qrtflow`" as a means of assigning RTP
-Session Flow Identifiers to RTP and RTCP packet flows. It's formatting in SDP is described by the
+This specification introduces a new SDP value attribute "`qrtflow`" as a means of assigning QRT
+Flow Identifiers to RTP and RTCP packet flows. Its formatting in SDP is described by the
 following ABNF {{!RFC5234}}:
 
 ~~~~~~~~~~
 qrtflow-attribute = "a=qrtflow:" qrt-flow-id
-qrt-flow-id       = *DIGIT ; unsigned 62-bit integer
+qrt-flow-id       = 1*DIGIT ; unsigned 62-bit integer
 ~~~~~~~~~~
 
-In the below example {{sdp-example}}, a hypothetical QRT server advertises an endpoint to use as a
-live event contribution feed point. It instructs a prospective client to send a vc2-encoded video
-stream and a vorbis-encoded audio stream on two separate RTP sessions. In addition, it uses the SDP
+Per {{flow-identifier}} the value of the `qrt-flow-id` is required to be an even number.
+
+The example in {{sdp-example}} below shows a hypothetical QRT server advertising an endpoint to use
+for live contribution. It instructs a prospective client to send a VC2-encoded video
+stream and a Vorbis-encoded audio stream on two separate RTP sessions. In addition, it uses the SDP
 grouping framework described in {{!RFC5888}} to ensure lip synchronisation between both of those RTP
 sessions.
 
@@ -359,17 +360,17 @@ a=rtpmap:97 vorbis
 a=mid:2
 a=sendonly
 ~~~~~~~~~~
-{: #sdp-example title="SDP object describing a receiving QRT session"}
+{: #sdp-example title="SDP object describing a QRT session"}
 
-As the value of a QRT session flow identifier for an RTCP flow is mandated in {{rtcp-mapping}} of
-this specification, then SDP advertisements containing the "a=qrtflow:" attribute MUST NOT contain
-an instance of the "a=rtcp:" attribute as defined in {{!RFC3605}}.
+Since the value of a QRT Flow Identifier for an associated RTCP flow is specified in
+{{rtcp-mapping}}, SDP advertisements containing the "a=qrtflow:" attribute MUST NOT contain an
+instance of the "a=rtcp:" attribute as defined in {{!RFC3605}}.
 
 ## Using the Session Description Protocol to Advertise QRT Sessions using RTP Retransmission {#sdp-rtx}
 
-In the below example {{sdp-rtx-example}}, a hypothetical QRT session is advertised exposing a
-bidirectional RTP session carrying MPEG2 Transport Streams on QRT session flow identifier 0, with an
-associated retransmission QRT session flow on identifier 2.
+The example in {{sdp-rtx-example}} below shows a hypothetical QRT session advertisement for a
+bidirectional RTP session carrying an MPEG-2 Transport Stream in each direction on QRT Flow
+Identifier 0, and a corresponding pair of retransmission flows on QRT Flow Identifier 2.
 
 ~~~~~~~~~~
 v=0
@@ -388,36 +389,39 @@ a=qrtflow:2
 
 # Calculating Round-Trip Time Using The Spin Bit {#rtt-spin}
 
-{{QUIC-TRANSPORT}} includes a mechanism that allows latency monitoring for a connection, not just by
-QUIC endpoints but also passively by observation points on the network path. QRT implementations
+{{QUIC-TRANSPORT}} specifies a mechanism that allows latency monitoring by QUIC endpoints. (This may
+also be used passively by observation points on the network path.) QRT implementations
 SHOULD support the spin bit and MAY use it either alone or in combination with RTCP messages to
-calculate the Round-Trip Time between a client and server, and make this data available to the RTP
-layer.
+calculate the Round-Trip Time between the participants in a QRT Session, and SHOULD make this
+information available to the RTP layer.
 
-> **Authors' Note:** It occurs to me that there is no means for the server to indicate what amount
+> **Author's Note:** There is no means for an endpoint to indicate what amount
 of idle or processing time was incurred before the packet that flips the spin bit is received. For
 example, a sender may be pacing packets out at a defined rate so as to not overwhelm the network,
-so maybe this isn't such a good idea - I welcome comments on the subject.
+so maybe this isn't such a good idea - comments are welcome on the subject.
 
 # Protocol Identifier {#protocol-identifier}
 
-The QRT protocol specified in this document is identified by the application-layer protocol
-negotiation (ALPN) {{!RFC7301}} identifier "qrt".
+The QRT protocol specified in this document is identified by the Application-Layer Protocol
+Negotiation (ALPN) {{!RFC7301}} identifier "qrt".
 
 ## Draft Version Identification
+
+> **RFC Editor's Note:** Please remove this section prior to publication of a final version of this
+document.
 
 Only implementations of the final, published RFC can identify themselves as "qrt". Until such an RFC
 exists, implementations MUST NOT identify themselves using this string. Implementations of draft
 versions of the protocol MUST add the string "-h" and the corresponding draft number to the
-identifier. For example, draft-hurst-quic-rtp-tunnelling-03 is identified using the string
-"qrt-h03".
+identifier. For example, draft-hurst-quic-rtp-tunnelling-00 is identified using the string
+"qrt-h00".
 
 Non-compatible experiments that are based on these draft versions MUST append the string "-" and an
 experiment name to the identifier. For example, an experimental implementation based on
-draft-hurst-quic-rtp-tunnelling-03 which uses extension features not registered with the appropriate
-IANA registry might identify itself as "qrt-h03-extension-foo". Note that any label MUST conform to
-the "token" syntax defined in Section 3.2.6 of [RFC7230]. Experimenters are encouraged to coordinate
-their experiments.
+draft-hurst-quic-rtp-tunnelling-00 which uses extension features not registered with the appropriate
+IANA registry might identify itself as "qrt-h00-extension-foo". Note that any label MUST conform to
+the "token" syntax defined in Section 3.2.6 of {{!RFC7230}}. Experimenters are encouraged to
+coordinate their experiments.
 
 # Security Considerations
 
