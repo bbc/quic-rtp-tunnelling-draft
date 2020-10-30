@@ -493,4 +493,5 @@ SDP Attribute Field registry established by {{!RFC4566}}.
 # Acknowledgments
 {:numbered="false"}
 
-TODO acknowledge.
+The author would like to thank Richard Bradbury, David Waring, Colin Perkins, Jörg Ott, and Lucas
+Pardue for their helpful comments on both the design and review of this document.
