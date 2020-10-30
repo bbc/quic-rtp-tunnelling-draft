@@ -357,7 +357,9 @@ qrtflow-attribute = "a=qrtflow:" qrt-flow-id
 qrt-flow-id       = 1*DIGIT ; unsigned 62-bit integer
 ~~~~~~~~~~
 
-Per {{flow-identifier}} the value of the `qrt-flow-id` is required to be an even number.
+Per {{flow-identifier}} the value of the `qrt-flow-id` is required to be an even number. (The
+odd-numbered RTCP flow associated with the RTP session is not explicitly signalled in the SDP
+object.)
 
 The example in {{sdp-example}} below shows a hypothetical QRT server advertising an endpoint to use
 for live contribution. It instructs a prospective client to send a VC2-encoded video
