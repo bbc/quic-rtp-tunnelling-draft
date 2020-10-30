@@ -93,6 +93,27 @@ informative:
         org: sn3rd
         role: editor
 
+  HTTP-SEMANTICS:
+    title: "HTTP Semantics"
+    date: {DATE}
+    seriesinfo:
+      Internet-Draft: draft-ietf-httpbis-semantics-12
+    author:
+      -
+        ins: R. Fielding
+        name: Roy T. Fielding
+        org: Adobe
+        role: editor
+      -
+        ins: M. Nottingham
+        name: Mark Nottingham
+        org: Fastly
+        role: editor
+      -
+        ins: J. Reschke
+        name: Julian F. Reschke
+        org: greenbytes GmbH
+        role: editor
 
 --- abstract
 
@@ -420,7 +441,7 @@ Non-compatible experiments that are based on these draft versions MUST append th
 experiment name to the identifier. For example, an experimental implementation based on
 draft-hurst-quic-rtp-tunnelling-00 which uses extension features not registered with the appropriate
 IANA registry might identify itself as "qrt-h00-extension-foo". Note that any label MUST conform to
-the "token" syntax defined in Section 3.2.6 of {{!RFC7230}}. Experimenters are encouraged to
+the "token" syntax defined in Section 5.7.2 of {{HTTP-SEMANTICS}}. Experimenters are encouraged to
 coordinate their experiments.
 
 # Security Considerations
