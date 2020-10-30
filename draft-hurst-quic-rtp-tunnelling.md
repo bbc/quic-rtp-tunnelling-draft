@@ -204,7 +204,7 @@ group, whereas the camera video feed and various microphone feeds need to be tig
 together.
 
 At the event, a production machine running a software package that includes a QRT client has two
-connections to the internet; a high-speed fibre link and a bonded cellular network link for backup.
+connections to the Internet; a high-speed fibre link and a bonded cellular network link for backup.
 
 In order to prevent a bad actor on the network path being able to tamper with the contribution, all
 communication between the news organisation's gallery and the remote production need to be
