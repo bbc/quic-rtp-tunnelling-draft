@@ -316,15 +316,15 @@ these packet types.
 
 In order to reduce duplication, the following RTCP packet types SHOULD NOT be sent in a QRT session:
 
-* The "Generic NACK" packet. {{!RFC4585}} states that Generic NACK feedback SHOULD NOT be used if
+* The "Generic NACK" packet. {{?RFC4585}} states that Generic NACK feedback SHOULD NOT be used if
 the underlying transport protocol is capable of providing similar feedback information to the
 sender. Since all `DATAGRAM` frames are ACK-eliciting, QUIC already fulfils this requirement.
 
-* The "Loss RLE" Extended Report (XR) packet defined in {{!RFC3611}} contains information that
+* The "Loss RLE" Extended Report (XR) packet defined in {{?RFC3611}} contains information that
 should already be known to both ends of the QUIC connection by means of the loss detection mechanism
 specified in {{QUIC-RECOVERY}}.
 
-* The "Port Mapping" packet type defined in {{!RFC6284}} is used to negotiate UDP port pairs for the
+* The "Port Mapping" packet type defined in {{?RFC6284}} is used to negotiate UDP port pairs for the
 carriage of RTP and RTCP packets to peers. This does not apply in a QRT session, because the QUIC
 endpoints manage the UDP port association(s) for the QUIC connection as a whole.
 
@@ -344,7 +344,7 @@ RTP sessions is expressed using the Session Description Protocol (SDP).
 # Using the Session Description Protocol to Advertise QRT Sessions {#sdp-mapping}
 
 {{!RFC4566}} describes a format for advertising multimedia sessions, which is used by protocols such
-as {{!RFC3261}}.
+as {{?RFC3261}}.
 
 This specification introduces a new SDP value attribute "`qrtflow`" as a means of assigning QRT
 Flow Identifiers to RTP and RTCP packet flows. Its formatting in SDP is described by the
