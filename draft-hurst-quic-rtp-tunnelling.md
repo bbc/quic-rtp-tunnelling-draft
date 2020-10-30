@@ -409,18 +409,15 @@ a=qrtflow:2
 ~~~~~~~~~~
 {: #sdp-rtx-example title="SDP object describing a QRT session with RTP retransmission"}
 
-# Calculating Round-Trip Time Using The Spin Bit {#rtt-spin}
+# Exposing Round-Trip Time to RTP applications {#rtt}
 
-{{QUIC-TRANSPORT}} specifies a mechanism that allows latency monitoring by QUIC endpoints. (This may
-also be used passively by observation points on the network path.) QRT implementations
-SHOULD support the spin bit and MAY use it either alone or in combination with RTCP messages to
-calculate the Round-Trip Time between the participants in a QRT Session, and SHOULD make this
-information available to the RTP layer.
+Section 5 of {{QUIC-RECOVERY}} specifies a mechanism for QUIC endpoints to estimate the rount-trip
+time (RTT) of a connection. QRT implementations SHOULD expose the values of `min_rtt`,
+`smoothed_rtt` and `rttvar` for each network path to the RTP layer, and they MAY use these values
+either alone or in combination with RTCP messages to discern the round-trip time of the QRT session.
 
-> **Author's Note:** There is no means for an endpoint to indicate what amount
-of idle or processing time was incurred before the packet that flips the spin bit is received. For
-example, a sender may be pacing packets out at a defined rate so as to not overwhelm the network,
-so maybe this isn't such a good idea - comments are welcome on the subject.
+> **Author's Note:** The author welcomes comments on how appropriate these QUIC RTT measurements are
+to the RTP layer.
 
 # Protocol Identifier {#protocol-identifier}
 
