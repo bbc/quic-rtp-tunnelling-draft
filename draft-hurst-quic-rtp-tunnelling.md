@@ -293,7 +293,8 @@ Flow Identifiers. Carriage of RTCP packets is discussed further in {{rtcp-mappin
 > **Author's Note:** The author welcomes comments on whether a state model of RTP session flows
 would be beneficial. Currently, once an RTP session has been used by an endpoint, it is then
 considered an extant RTP session and implementations would have to keep any resources allocated to
-that RTP session until the QRT session is complete.
+that RTP session until the QRT session is complete. In addition, how should endpoints react to
+receiving packets for unknown QRT flow identifiers?
 
 ## RTCP Mapping {#rtcp-mapping}
 
