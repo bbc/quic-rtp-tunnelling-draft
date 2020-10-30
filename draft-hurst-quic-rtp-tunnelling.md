@@ -75,24 +75,6 @@ normative:
         org: Google LLC
         role: editor
 
-informative:
-  QUIC-TLS:
-    title: "Using Transport Layer Security (TLS) to Secure QUIC"
-    date: {DATE}
-    seriesinfo:
-      Internet-Draft: draft-ietf-quic-tls-32
-    author:
-      -
-        ins: M. Thomson
-        name: Martin Thomson
-        org: Mozilla
-        role: editor
-      -
-        ins: S. Turner
-        name: Sean Turner
-        org: sn3rd
-        role: editor
-
   HTTP-SEMANTICS:
     title: "HTTP Semantics"
     date: {DATE}
@@ -113,6 +95,24 @@ informative:
         ins: J. Reschke
         name: Julian F. Reschke
         org: greenbytes GmbH
+        role: editor
+
+informative:
+  QUIC-TLS:
+    title: "Using Transport Layer Security (TLS) to Secure QUIC"
+    date: {DATE}
+    seriesinfo:
+      Internet-Draft: draft-ietf-quic-tls-32
+    author:
+      -
+        ins: M. Thomson
+        name: Martin Thomson
+        org: Mozilla
+        role: editor
+      -
+        ins: S. Turner
+        name: Sean Turner
+        org: sn3rd
         role: editor
 
 --- abstract
