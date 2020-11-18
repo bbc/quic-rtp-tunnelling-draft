@@ -167,6 +167,8 @@ Packet and frame diagrams in this document use the format described in {{QUIC-TR
 * QRT session: A QUIC connection carrying one or more RTP sessions, each with or without an
 accompanying RTCP channel.
 
+* RTP layer: The logical entity which manages the RTP sessions which flow through the QRT session.
+
 * Client: The endpoint which initiates the QUIC connection.
 
 * Server: The endpoint which accepts the incoming QUIC connection.
