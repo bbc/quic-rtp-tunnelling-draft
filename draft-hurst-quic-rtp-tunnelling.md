@@ -564,7 +564,15 @@ SDP Attribute Field registry established by {{!RFC4566}}.
 --- back
 
 # Acknowledgments
-{:numbered="false"}
 
 The author would like to thank Richard Bradbury, David Waring, Colin Perkins, Jörg Ott, and Lucas
 Pardue for their helpful comments on both the design and review of this document.
+
+# Changelog
+
+## Since draft-hurst-quic-rtp-tunnelling-00
+
+- Specify that QRT cannot coexist with other applications using `DATAGRAM` frames on a single QUIC connection
+- Specify the principles which define which RTCP packet types can be replaced with QUIC transport features
+- Add an API expectations section
+- Scope of the QRT flow identifier has been clarified
