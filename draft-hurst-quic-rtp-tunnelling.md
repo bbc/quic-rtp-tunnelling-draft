@@ -327,11 +327,24 @@ purposes of experimentation. Similarly, most statements below use SHOULD NOT ins
 The author welcomes comments on whether the document should prohibit the sending of some or all of
 these packet types.
 
-In order to reduce duplication, the following RTCP packet types SHOULD NOT be sent in a QRT session:
+{{QUIC-TRANSPORT}} implements many transport features that RTP/RTCP has also implemented in order to
+manage transmission on unreliable transport protocols. In order to reduce duplication between QUIC
+transport and RTP/RTCP, if QUIC transport or the QRT session exposes a transport feature to the RTP
+layer then it takes precedence over the same feature in RTP/RTCP.
+
+In addition, some RTP/RTCP packets that relate to specific features or capabilities of the transport
+protocol that are not explicitly relevant to QRT SHOULD NOT be sent on a QRT session unless they
+relate to some part of an RTP multimedia session outside of the scope of the QRT session. Any and
+all QRT-specific messages should be implemented at the `DATAGRAM` or `STREAM` level in QRT, and not
+carried as RTP/RTCP packets.
+
+The following is a non-exhaustive list of RTCP packet types that SHOULD NOT be sent in a QRT
+session:
 
 * The "Generic NACK" packet. {{?RFC4585}} states that Generic NACK feedback SHOULD NOT be used if
 the underlying transport protocol is capable of providing similar feedback information to the
-sender. Since all `DATAGRAM` frames are ACK-eliciting, QUIC already fulfils this requirement.
+sender. In order to fulfil this requirement, QRT implementations MUST provide data about `DATAGRAM`
+acknowledgement, or lack thereof, to the RTP layer.
 
 * The "Loss RLE" Extended Report (XR) packet defined in {{?RFC3611}} contains information that
 should already be known to both ends of the QUIC connection by means of the loss detection mechanism
