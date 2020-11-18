@@ -354,7 +354,7 @@ specified in {{QUIC-RECOVERY}}.
 carriage of RTP and RTCP packets to peers. This does not apply in a QRT session, because the QUIC
 endpoints manage the UDP port association(s) for the QUIC connection as a whole.
 
-# Loss Recovery and Retransmission
+# Loss Recovery and Retransmission {#loss-rtx}
 
 > **Author's Note:** Do we want to mandate (make a MUST) doing session-multiplexing instead of
 SSRC-multiplexing for RTP retransmission?
@@ -445,6 +445,43 @@ either alone or in combination with RTCP messages to discern the round-trip time
 
 > **Author's Note:** The author welcomes comments on how appropriate these QUIC RTT measurements are
 to the RTP layer.
+
+# Application Interface Expectations {#api-expectations}
+
+The QRT implementation described in this document assumes that it is a simple mapping layer between
+an RTP implementation and a QUIC transport implementation. A QRT implementation MAY incorporate one
+or both of the RTP and QUIC implementations into the same library or application, or they MAY be
+separate and linked at runtime.
+
+* The QRT implementation MUST provide an interface that consumes and produces RTP and RTCP flows (as
+  applicable) with some mechanism to supply the applicable QRT flow identifiers for the given RTP
+  session. RTP and RTCP packets in an RTP flow are expected to be carried with no modification, and
+  thus the QRT implementation should reject RTP/RTCP packets which would not fit wholly within a
+  single `DATAGRAM` frame, as this specification does not permit fragmentation.
+
+* The QUIC transport implementation MUST provide an implementation of the {{QUIC-DATAGRAM}}
+  extension frame type. A single QRT session MUST be the only application using a `DATAGRAM` frame
+  in any QUIC connection.
+
+* The QUIC transport implementation MUST provide an interface to the QRT implementation to either
+  query or push (via a callback) details about whether a previously sent `DATAGRAM` has been
+  acknowledged by the remote peer as discussed in {{loss-rtx}}. The QRT implementation will then
+  forward that information to the RTP implementation.
+
+* The QUIC transport implementation SHOULD provide an interface to the QRT implementation to either
+  query or push (via a callback) the QUIC round-trip time calculations as discussed in {{rtt}}. If
+  provided, then the QRT implementation MUST expose that information to the RTP implementation. Some
+  conversion or adaptation of that data to make it more applicable to a given RTP implementation's
+  expected format is permitted.
+
+* The QRT implementation should indicate errors at any of its interfaces at the soonest possible
+  opportunity.
+
+> **Author's Note:** Future versions of this specification may specify interfaces for handling
+prioritisation of individual RTP flows, or multiplexing QRT with another `DATAGRAM`-using
+application protocol. Ideally, these would be implemented generically at the `DATAGRAM` frame level
+or via another generic draft, but may be implemented directly in QRT if no generic implementation
+exists. Experiments to this effect are encouraged.
 
 # Protocol Identifier {#protocol-identifier}
 
