@@ -241,6 +241,15 @@ sessions carried in one or more QRT sessions.
 A QRT session inherits the standard QUIC handshake as specified in {{QUIC-TRANSPORT}}, and all
 communications between endpoints are secured as specified in {{QUIC-TLS}}.
 
+A QRT session may be established using an existing or new QUIC transport connection. For a given
+QUIC transport connection, QRT MUST be the only protocol using `DATAGRAM` frames. QRT MAY coexist
+on the same QUIC connection with applications using other frame types, such as `STREAM` frames.
+
+> **Author's Note:** When {{QUIC-DATAGRAM}} or an equivalent extension draft specifies a generic
+manner for multiplexing traffic destined for different applications over `DATAGRAM` frames, then
+this draft SHOULD adopt such a mechanism and loosen or remove the restriction on QRT being the only
+protocol using `DATAGRAM` frames on a QUIC connection.
+
 # RTP Sessions {#rtp-session}
 
 QRT allows multiple RTP sessions to be carried in a single QRT session. Each RTP session is operated
