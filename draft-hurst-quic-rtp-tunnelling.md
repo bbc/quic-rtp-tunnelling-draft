@@ -278,6 +278,15 @@ Implementations SHOULD allocate flow identifiers that make the most efficient us
 length integer packing mechanism, by not using flow identifiers greater than can be expressed in the
 smallest variable length integer field until all available flow identifiers have been used.
 
+The scope of a QRT flow identifier is specific to the QRT session that it is used on. An RTP flow
+carried over multiple QRT sessions may have different flow identifiers on each QRT session that it
+passes through. For example, there could be two QRT endpoints (A, B) each sending a set of RTP flows
+to a third QRT endpoint which is acting as an RTP mixer (M), which itself is then forwarding some or
+all of the flows onto a fourth QRT endpoint (C) which consumes the flows. As it's likely that the
+QRT flow identifiers for the connections A->M and B->M will collide, the flow identifiers used on
+the connection M->C will use different flow identifiers. The allocation of identifiers to use is,
+again, not defined by this document.
+
 The flow of packets belonging to an RTP session is identified using an RTP Session Flow Identifier
 header carried in the `DATAGRAM` frame payload before each RTP/RTCP packet. This flow identifier is
 encoded as a variable-length integer, as defined in {{QUIC-TRANSPORT}}.
