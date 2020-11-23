@@ -466,7 +466,8 @@ separate and linked at runtime.
   applicable) with some mechanism to supply the applicable QRT flow identifiers for the given RTP
   session. RTP and RTCP packets in an RTP flow are expected to be carried with no modification, and
   thus the QRT implementation should reject RTP/RTCP packets which would not fit wholly within a
-  single `DATAGRAM` frame, as this specification does not permit fragmentation.
+  single `DATAGRAM` frame, as this specification does not permit fragmentation. QRT implementations
+  MUST expose the maximum RTP/RTCP packet size permitted for the current network path.
 
 * The QUIC transport implementation MUST provide an implementation of the {{QUIC-DATAGRAM}}
   extension frame type. A single QRT session MUST be the only application using a `DATAGRAM` frame
@@ -575,4 +576,5 @@ Pardue for their helpful comments on both the design and review of this document
 - Specify that QRT cannot coexist with other applications using `DATAGRAM` frames on a single QUIC connection
 - Specify the principles which define which RTCP packet types can be replaced with QUIC transport features
 - Add an API expectations section
-- Scope of the QRT flow identifier has been clarified
+- Scope of the QRT Flow Identifier has been clarified
+- Specify that the network path MTU should be exposed to help with PMTUD
