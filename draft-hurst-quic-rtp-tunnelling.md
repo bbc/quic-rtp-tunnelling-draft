@@ -266,11 +266,13 @@ received without a Length field, then this `DATAGRAM` frame extends to the end o
 
 ## QRT Flow Identifier {#flow-identifier}
 
-{{!RFC3550}} specifies that RTP sessions are distinguished by pairs of transport addresses. However,
-since QUIC allows for connections to migrate between transport address associations, and because we
-wish to multiplex multiple RTP session flows over a single QRT session, this profile of RTP amends
-this statement and instead introduces a flow identifier to distinguish between RTP sessions. The QRT
-Flow Identifier is a 62-bit unsigned integer between 0 and 2^62 - 1.
+{{!RFC3550}} specifies that RTP sessions are distinguished by pairs of transport addresses, with a
+pair of ports for the RTP and RTCP packet flows comprising the RTP session. However, since QUIC
+allows for connections to migrate between transport address associations, and because we wish to
+multiplex multiple RTP session flows over a single QRT session, this profile of RTP amends this
+statement and instead introduces a QRT Flow Identifier to identify RTP and RTCP flows belonging
+to RTP sessions within the QRT session. Each pair of these QRT Flow Identifiers distinguishes the
+RTP session. The QRT Flow Identifier is a 62-bit unsigned integer between 0 and 2^62 - 1.
 
 This specification does not mandate a means by which QRT Flow Identifiers are allocated for use
 within QRT sessions. An example mapping for this is discussed in {{sdp-mapping}} below.
