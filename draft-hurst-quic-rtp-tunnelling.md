@@ -278,12 +278,12 @@ Implementations SHOULD allocate flow identifiers that make the most efficient us
 length integer packing mechanism, by not using flow identifiers greater than can be expressed in the
 smallest variable length integer field until all available flow identifiers have been used.
 
-The scope of a QRT flow identifier is specific to the QRT session that it is used on. An RTP flow
+The scope of a QRT Flow Identifier is specific to the QRT session that it is used on. An RTP flow
 carried over multiple QRT sessions may have different flow identifiers on each QRT session that it
 passes through. For example, there could be two QRT endpoints (A, B) each sending a set of RTP flows
 to a third QRT endpoint which is acting as an RTP mixer (M), which itself is then forwarding some or
 all of the flows onto a fourth QRT endpoint (C) which consumes the flows. As it's likely that the
-QRT flow identifiers for the connections A->M and B->M will collide, the flow identifiers used on
+QRT Flow Identifiers for the connections A->M and B->M will collide, the flow identifiers used on
 the connection M->C will use different flow identifiers. The allocation of identifiers to use is,
 again, not defined by this document.
 
@@ -315,7 +315,7 @@ Flow Identifiers. Carriage of RTCP packets is discussed further in {{rtcp-mappin
 would be beneficial. Currently, once an RTP session has been used by an endpoint, it is then
 considered an extant RTP session and implementations would have to keep any resources allocated to
 that RTP session until the QRT session is complete. In addition, how should endpoints react to
-receiving packets for unknown QRT flow identifiers?
+receiving packets for unknown QRT Flow Identifiers?
 
 ## RTCP Mapping {#rtcp-mapping}
 
@@ -463,7 +463,7 @@ or both of the RTP and QUIC implementations into the same library or application
 separate and linked at runtime.
 
 * The QRT implementation MUST provide an interface that consumes and produces RTP and RTCP flows (as
-  applicable) with some mechanism to supply the applicable QRT flow identifiers for the given RTP
+  applicable) with some mechanism to supply the applicable QRT Flow Identifiers for the given RTP
   session. RTP and RTCP packets in an RTP flow are expected to be carried with no modification, and
   thus the QRT implementation should reject RTP/RTCP packets which would not fit wholly within a
   single `DATAGRAM` frame, as this specification does not permit fragmentation. QRT implementations
