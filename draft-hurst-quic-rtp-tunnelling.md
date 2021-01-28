@@ -24,7 +24,7 @@ normative:
     title: "QUIC: A UDP-Based Multiplexed and Secure Transport"
     date: {DATE}
     seriesinfo:
-      Internet-Draft: draft-ietf-quic-transport-32
+      Internet-Draft: draft-ietf-quic-transport-34
     author:
       -
         ins: J. Iyengar
@@ -41,7 +41,7 @@ normative:
     title: "QUIC Loss Detection and Congestion Control"
     date: {DATE}
     seriesinfo:
-      Internet-Draft: draft-ietf-quic-recovery-32
+      Internet-Draft: draft-ietf-quic-recovery-34
     author:
       -
         ins: J. Iyengar
@@ -80,7 +80,7 @@ normative:
     title: "HTTP Semantics"
     date: {DATE}
     seriesinfo:
-      Internet-Draft: draft-ietf-httpbis-semantics-12
+      Internet-Draft: draft-ietf-httpbis-semantics-14
     author:
       -
         ins: R. Fielding
@@ -103,7 +103,7 @@ informative:
     title: "Using Transport Layer Security (TLS) to Secure QUIC"
     date: {DATE}
     seriesinfo:
-      Internet-Draft: draft-ietf-quic-tls-32
+      Internet-Draft: draft-ietf-quic-tls-34
     author:
       -
         ins: M. Thomson
@@ -379,7 +379,7 @@ RTP sessions is expressed using the Session Description Protocol (SDP).
 
 # Using the Session Description Protocol to Advertise QRT Sessions {#sdp-mapping}
 
-{{!RFC4566}} describes a format for advertising multimedia sessions, which is used by protocols such
+{{!RFC8866}} describes a format for advertising multimedia sessions, which is used by protocols such
 as {{?RFC3261}}.
 
 This specification introduces a new SDP value attribute "`qrtflow`" as a means of assigning QRT
@@ -516,7 +516,7 @@ Non-compatible experiments that are based on these draft versions MUST append th
 experiment name to the identifier. For example, an experimental implementation based on
 draft-hurst-quic-rtp-tunnelling-00 which uses extension features not registered with the appropriate
 IANA registry might identify itself as "qrt-h00-extension-foo". Note that any label MUST conform to
-the "token" syntax defined in Section 5.7.2 of {{HTTP-SEMANTICS}}. Experimenters are encouraged to
+the "token" syntax defined in Section 5.6.2 of {{HTTP-SEMANTICS}}. Experimenters are encouraged to
 coordinate their experiments.
 
 # Security Considerations
@@ -544,7 +544,7 @@ The "qrt" string identifies RTP sessions multiplexed and carried over a QUIC tra
 
 ## Registration of SDP Protocol Identifier
 This document creates a new registration for the SDP Protocol Identifier ("proto") "RTP/QRT" in the
-SDP Protocol Identifiers ("proto") registry established by {{!RFC4566}}.
+SDP Protocol Identifiers ("proto") registry established by {{!RFC8866}}.
 
 The "RTP/QRT" string identifies a profile of RTP where sessions are multiplexed and carried over a
 QUIC transport layer:
@@ -557,7 +557,7 @@ QUIC transport layer:
 
 ## Registration of SDP Attribute Field
 This document creates a new registration for the SDP Attribute Field ("att-field") "qrtflow" in the
-SDP Attribute Field registry established by {{!RFC4566}}.
+SDP Attribute Field registry established by {{!RFC8866}}.
 
   SDP Attribute Field:
   : "qrtflow"
