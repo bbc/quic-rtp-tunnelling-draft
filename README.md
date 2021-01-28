@@ -2,9 +2,8 @@
 
 This is the working area for the individual Internet-Draft, "QRT: QUIC RTP Tunnelling".
 
-* [Editor's Copy](https://bbc.github.io/quic-rtp-tunnelling-draft/#go.draft-hurst-quic-rtp-tunnelling.html)
+* [Editor's Copy](https://bbc.github.io/quic-rtp-tunnelling-draft/draft-hurst-quic-rtp-tunnelling.html)
 * [Individual Draft](https://tools.ietf.org/html/draft-hurst-quic-rtp-tunnelling)
-* [Compare Editor's Copy to Individual Draft](https://bbc.github.io/quic-rtp-tunnelling-draft/#go.draft-hurst-quic-rtp-tunnelling.diff)
 
 ## Building the Draft
 
