@@ -466,11 +466,13 @@ or both of the RTP and QUIC implementations into the same library or application
 separate and linked at runtime.
 
 * The QRT implementation MUST provide an interface that consumes and produces RTP and RTCP flows (as
-  applicable) with some mechanism to supply the applicable QRT Flow Identifiers for the given RTP
-  session. RTP and RTCP packets in an RTP flow are expected to be carried with no modification, and
-  thus the QRT implementation should reject RTP/RTCP packets which would not fit wholly within a
+  applicable). RTP and RTCP packets in an RTP flow are expected to be carried with no modification,
+  and thus the QRT implementation should reject RTP/RTCP packets which would not fit wholly within a
   single `DATAGRAM` frame, as this specification does not permit fragmentation. QRT implementations
   MUST expose the maximum RTP/RTCP packet size permitted for the current network path.
+
+> **Author's Note:** Future versions of this specification may provide additional guidance on the
+allocation of QRT Flow Identifiers.
 
 * The QUIC transport implementation MUST provide an implementation of the {{QUIC-DATAGRAM}}
   extension frame type. A single QRT session MUST be the only application using a `DATAGRAM` frame
