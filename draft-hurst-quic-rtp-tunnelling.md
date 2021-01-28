@@ -569,8 +569,8 @@ SDP Attribute Field registry established by {{!RFC8866}}.
 
 # Acknowledgments
 
-The author would like to thank Richard Bradbury, David Waring, Colin Perkins, Jörg Ott, and Lucas
-Pardue for their helpful comments on both the design and review of this document.
+The author would like to thank Richard Bradbury, David Waring, Colin Perkins, Jörg Ott, Lucas Pardue
+and Piers O'Hanlon for their helpful comments on both the design and review of this document.
 
 # Changelog
 
