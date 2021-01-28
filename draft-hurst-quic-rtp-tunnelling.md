@@ -167,7 +167,7 @@ Packet and frame diagrams in this document use the format described in {{QUIC-TR
 * QRT session: A QUIC connection carrying one or more RTP sessions, each with or without an
 accompanying RTCP channel.
 
-* RTP layer: The logical entity which manages the RTP sessions which flow through the QRT session.
+* RTP layer: The logical entity which manages the RTP sessions carried in the QRT session.
 
 * Client: The endpoint which initiates the QUIC connection.
 
@@ -267,12 +267,13 @@ received without a Length field, then this `DATAGRAM` frame extends to the end o
 ## QRT Flow Identifier {#flow-identifier}
 
 {{!RFC3550}} specifies that RTP sessions are distinguished by pairs of transport addresses, with a
-pair of ports for the RTP and RTCP packet flows comprising the RTP session. However, since QUIC
-allows for connections to migrate between transport address associations, and because we wish to
-multiplex multiple RTP session flows over a single QRT session, this profile of RTP amends this
-statement and instead introduces a QRT Flow Identifier to identify RTP and RTCP flows belonging
-to RTP sessions within the QRT session. Each pair of these QRT Flow Identifiers distinguishes the
-RTP session. The QRT Flow Identifier is a 62-bit unsigned integer between 0 and 2^62 - 1.
+separate pair of ports for the RTP and RTCP packet flows comprising the RTP session. However, since
+QUIC allows for connections to migrate between transport address associations, and because we wish
+to multiplex multiple RTP sessions over a single QRT session, this profile of RTP amends this
+statement and instead introduces a QRT Flow Identifier to identify packet flows belonging to
+different RTP sessions within the QRT session. A matched pair of these QRT Flow Identifiers
+distinguishes the RTP packet flow and RTCP packet flow of each RTP session. The QRT Flow Identifier
+is a 62-bit unsigned integer between 0 and 2^62 - 1.
 
 This specification does not mandate a means by which QRT Flow Identifiers are allocated for use
 within QRT sessions. An example mapping for this is discussed in {{sdp-mapping}} below.
@@ -284,7 +285,7 @@ The scope of a QRT Flow Identifier is specific to the QRT session that it is use
 carried over multiple QRT sessions may have different flow identifiers on each QRT session that it
 passes through. For example, there could be two QRT endpoints (A, B) each sending a set of RTP flows
 to a third QRT endpoint which is acting as an RTP mixer (M), which itself is then forwarding some or
-all of the flows onto a fourth QRT endpoint (C) which consumes the flows. As it's likely that the
+all of the flows on to a fourth QRT endpoint (C) which consumes the flows. As it's likely that the
 QRT Flow Identifiers for the connections A->M and B->M will collide, the flow identifiers used on
 the connection M->C will use different flow identifiers. The allocation of identifiers to use is,
 again, not defined by this document.
